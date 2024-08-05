@@ -1,9 +1,10 @@
 package main
 
 import (
-	basicSolutionAmountAlimony "main.go/basic/10-basic"
+	eventLoopBreak "main.go/basic/6-basic"
 )
 
 func main() {
-	basicSolutionAmountAlimony.Amount()
+	eventLoopBreak.EventLoopBreak()
+
 }
