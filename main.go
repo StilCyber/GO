@@ -1,10 +1,10 @@
 package main
 
 import (
-	eventLoopBreak "main.go/basic/6-basic"
+	basicSeven "main.go/basic/7-basic"
 )
 
 func main() {
-	eventLoopBreak.EventLoopBreak()
+	basicSeven.CalcFactorial(5)
 
 }
