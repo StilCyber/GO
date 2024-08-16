@@ -1,10 +1,10 @@
 package main
 
 import (
-	basicSeven "main.go/basic/7-basic"
+	basicEight "main.go/basic/8-basic"
 )
 
 func main() {
-	basicSeven.CalcFactorial(5)
+	basicEight.StringElements("string")
 
 }

@@ -1,0 +1,3 @@
+Написать функцию, которая на вход принимает строку и выводит в консоль каждый из символов этой строки в отдельности 
+
+https://ru.hexlet.io/qna/go/questions/kak-poluchit-simvol-iz-stroki-go
