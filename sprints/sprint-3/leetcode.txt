@@ -5,3 +5,16 @@
     2) пройтись циклом по строке, которая передается в качестве аргумента, и добавить в result либо символ,
         если это не точка, либо добавить [.]
     3) ретурнить получившуюся строку 
+
+2. https://leetcode.com/problems/score-of-a-string/
+
+3. https://leetcode.com/problems/maximum-number-of-words-found-in-sentences/
+
+
+4. https://leetcode.com/problems/detect-capital/
+
+    // здесь может помочь извлечение подстроки https://stackoverflow.com/questions/12311033/extracting-substrings-in-go ответ под цифрой 17
+
+5. https://leetcode.com/problems/length-of-last-word/
+
+    // не забываем про удаление пробелов с конца строки согласно условиям задачи
