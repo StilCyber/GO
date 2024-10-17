@@ -1,0 +1,12 @@
+// повтроение работы со строками
+1. https://leetcode.com/problems/keyboard-row
+
+// начало задач на массивы
+2. https://leetcode.com/problems/single-number/
+
+// паттерн хэш-мапа (в пер. на рунглиш - хэш-таблица)
+3. https://leetcode.com/problems/two-sum/
+4. https://leetcode.com/problems/contains-duplicate/
+
+// еще массивы
+5. https://leetcode.com/problems/running-sum-of-1d-array/

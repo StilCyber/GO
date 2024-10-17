@@ -1,10 +1,12 @@
-package main
+package main 
 
-import (
-	basicEight "main.go/basic/8-basic"
-)
+import "fmt"
+
+type Vertex struct {
+	X int
+	Y int
+}
 
 func main() {
-	basicEight.StringElements("string")
-
+	fmt.Println(Vertex{1,2})
 }
