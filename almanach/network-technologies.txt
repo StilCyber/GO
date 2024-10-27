@@ -1,0 +1,55 @@
+СЕТЕВЫЕ ТЕХНОЛОГИИ
+
+Зачем нужно и как смотреть
+
+
+Изучить сетевые технологии можно только одним способом - регулярно смотреть видосы (незабывая при этом "попутно" писать круды). Книги хорошо читать когда уже и так все это знаешь. 
+Смотреть можно в каком угодно порядке, но желатель по пунктам с начала списка - логики в чередовании здесь нет, полный хаос, но так хотя бы можно запомнить что уже смотрел (альтернативный механизм - ставить лайки после просмотра)
+Не пытаемся "вычерпать" какую-либо одну тему или конспектировать - смотрим каждый день по чуть-чуть, новые термины дополнительно гуглим, примерно через 2-3 недели начнет складываться общая картина
+Рассчитаваем минимум на 70-80 роликов
+
+
+1.	HTTP или HTTPS – как работает и в чем разница?
+
+https://www.youtube.com/watch?v=C9T_7D12URI&ab_channel=MerionAcademy
+
+2.	КАК РАБОТАЕТ HTTP? – АНАТОМИЯ ИНТЕРНЕТА
+
+https://www.youtube.com/watch?v=93cov6yT4OY&ab_channel=Droider
+
+3.	Структура HTTP запроса
+https://www.youtube.com/watch?si=ive7Tj2t1Esd2wlS&v=URg_Q8dclzg&feature=youtu.be
+
+4.	#1 Client (front-end) - Server (back-end) (it-ликбез из тачилы)
+
+https://www.youtube.com/watch?si=IVVhaG84tdXE9k8o&v=XsFcuM8mxco&feature=youtu.be
+
+
+5.	#5 http, get, post, put, delete (it ликбез из тачилы)
+
+https://www.youtube.com/watch?v=8Dzot6yos5U
+
+6.	Кэширование в HTTP | Компьютерные сети 2024 – 12
+
+https://www.youtube.com/watch?si=4J49szYVZuK8RF7J&v=AMonMSmVUeI&feature=youtu.be
+
+7.	Что такое Rest API (http)? Soap? GraphQL? Websockets? RPC (gRPC, tRPC). Клиент - сервер. Вся теория
+
+https://www.youtube.com/watch?si=zcWo0Qm6lzhRM6W3&v=XaTwnKLQi4A&feature=youtu.be
+
+8.	HTTP методы - различия GET и POST на примере
+
+https://www.youtube.com/watch?v=4tCV6-HxtyM
+
+9.	Основа Интернета и браузеров. Что такое интернет?
+
+https://www.youtube.com/watch?v=yhoBqIjnUQw
+
+
+10.	Основа Интернета и браузеров. Канальный и сетевой уровни модели TCP/IP
+
+https://www.youtube.com/watch?v=XvqriTeAfFY
+
+11. DNS сервер - что это и как работает?
+
+https://www.youtube.com/watch?v=t2NMbSarXC4&ab_channel=MerionAcademy
