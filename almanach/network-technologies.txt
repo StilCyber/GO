@@ -53,3 +53,7 @@ https://www.youtube.com/watch?v=XvqriTeAfFY
 11. DNS сервер - что это и как работает?
 
 https://www.youtube.com/watch?v=t2NMbSarXC4&ab_channel=MerionAcademy
+
+12. Компьютерные Сети: IPv4, IPv6, Subnet, DHCP, APIPA, CIDR - ЧТО ЭТО? Знания для Интервью
+
+https://www.youtube.com/watch?v=H3BlibIF6hQ&ab_channel=ADV-IT
