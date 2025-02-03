@@ -1421,6 +1421,15 @@ SELECT w.name wife, h.name husband FROM women AS w FULL JOIN husbands AS h ON h.
 
 
 
+
+
+
+111. Easy SQL: Counting and Grouping
+https://www.codewars.com/kata/594633020a561e329a0000a2/train/sql
+Вспомним былое. Используйте COUNT. Обратите внимание на Sample Tests - там указано, какие операторы должны присутствовать
+
+
+
 SELECT women.name, venereal_diseases.disease FROM women JOIN venereal_diseases ON venereal_diseases.id = women_venereal_diseases.disease_id WHERE venereal_diseases.woman_id = women.id;
 
 
