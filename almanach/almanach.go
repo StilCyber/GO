@@ -49,7 +49,7 @@ i++
 Еще один вариант:
 i += 1
 
-Кстати, такой синтасиси можно использовать и в других случаях:
+Кстати, такой синтасис можно использовать и в других случаях:
 var i = 0
 
 i += 1 // 1
@@ -128,6 +128,63 @@ fmt.Scan(&lovers)
 for lovers > 0 {
 	fmt.Printf("Текущее число любовников: %v\n", lovers)
 	lovers--
+}
+
+// ФУНКЦИИ
+
+// пример функции с одним параметром и одним возвращаемым значением
+func countLetters(num int) int {
+	result := 0
+
+	for i := 0; i <= num; i++ {
+		result += i
+	}
+
+	return result
+}
+
+// вариант с созданием возвращаемой переменной при объявлении функции
+func countLetters(num int) (sum int) {
+	sum = 0
+
+	for i := 0; i <= num; i++ {
+		sum += i
+	}
+
+	return sum
+}
+
+// функция имеет доступ к внешним переменным
+var lovers = []string{"Генерал Кастер", "Сальвадор Дали"}
+
+func main() {
+	listingLovers()
+	
+}
+
+func listingLovers() {
+	for _, value := range lovers {
+		fmt.Println(value)
+	}
+}
+
+// каноничный пример работы замыкания
+func main() {
+	test := counter()
+
+	fmt.Println(test()) // 0
+	fmt.Println(test()) // 1
+	fmt.Println(test()) // 2
+
+}
+
+func counter() func() int {
+	count := 0
+	return func() int {
+		value := count
+		count++
+		return value
+	}
 }
 
 // МАПЫ
