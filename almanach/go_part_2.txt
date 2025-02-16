@@ -403,5 +403,328 @@ fmt.Println(loversPart) // [Генерал Кастер Эрнан Кортес 
 Когда подготавливаем копию слайса, нужно указать длину как в исходном массиве
 Этого светка и добавалась 
 
+
+************************************************************************
+Структуры
+
+Теперь пришло время для конкретики
+Надо определить, какими атрибутами обладают женщины, их любовники и мужья 
+
+Для создания кастомных типов в go используется ключевое слово type
+   которое указывает на создание пользовательского объекта
+
+    type Woman struct{
+        Name string
+        Age uint8
+    }
+
+В структуре указывается название поля и его тип 
+Структура является абстракцией, на основе которой производится работа с данными
+
+	user := Woman{"Мариночка", 25}
+	fmt.Println(user) // 
+
+При создании переменной на основе структуры можно не указывать названия полей:
+
+	user := Woman{"Мариночка", 25}
+
+Здесь главное соблюдать порядок, однако читаемость кода сильно страдает 
+
+Можно выводить в консоль вместе с названиями полей вот таким незамысловатым способом:
+
+	user := Woman{"Мариночка", 25}
+	fmt.Printf("User: %+v\n", user) // User: {Name:Мариночка Age:25}
+
+Теперь будет интересней - в качестве типа поля структуры может выступать... другая структура
+
+    type Woman struct{
+        Name string 
+        Age uint8
+        Lovers []Lovers
+        Husband Husband
+        Сonscience bool	
+    }
+
+    type Lovers struct{
+        Name string
+        PersonalityDisorder string
+        Audacity uint8
+        Sociability uint8
+        Fear uint8
+        Сonscience bool
+    }
+
+    type Husband struct{
+        Name string 
+        Responsibility uint8
+        Patience uint8
+        Audacity uint8
+        Sociability uint8
+        Fear uint8
+        Сonscience bool
+        Income int
+    }
+
+Шикарно
+
+Структуры любовников и мужей отличаются
+Любовники обладают такими эксклюзивными атрибутами, как расстройство личности и дерзость
+Для мужей важны ответственность, терпение и доход
+Женщины могут иметь много любовников []Lovers, и только одного мужа 
+
+Теперь давайте делать все как полагается, но перед этим решим одну проблему
+Список расстройств личности у любовников (PersonalityDisorder) строго ограничен
+Женщин интересуют только следующие четыре:
+- антисоциальное расстройство
+- нарциссическое расстройство
+- истерическое расстройство
+- пограничное расстройство
+
+И мы же не будем их хардкодить, да? 
+Описывать их как структуру тоже не выйдет
+Значит, нам нужно перечисление, на которое мы будем ссылаться
+Такая штука называется enum
+Вот только загвоздка в том, что в go нет никакого enum
+Enum - это перечисляемый тип (enumerable), который используется во многих других языках
+Чтобы использовать enum в go, нужно... написать его самим 
+
+Итак, что мы делаем 
+
+Здесь мы воспользуемся кастомными типами
+Как и структуры, они объявляются словом type 
+
+type PersonalityDisorders int
+
+Отлично, эта хня теперь будет вести себя как обычное число, казалось бы зачем. А вот нужно
+
+    const (
+        AntisocialDisorder PersonalityDisorders = 1
+        NarcissisticDisorder PersonalityDisorders = 2
+        HystericalDisorder PersonalityDisorders = 3
+        BorderlineDisorder PersonalityDisorders = 4
+    )
+
+Окей, теперь мы может поменять тип атрибута PersonalityDisorder на PersonalityDisorders
+И указывать константы, где каждому расстройству соответствует своя цифра
+Сейчас мы уже может с этим работать, и go при заполнении значения этого поля будет предлагать созданные константы
+Но, это пока все равно не то
+
+    lovers := []Lovers{{Name: "Генерал Кастер", PersonalityDisorder: AntisocialDisorder, Audacity: 255, Sociability: 255, Fear: 0, Сonscience: false }}
+	fmt.Println(lovers) // [{Генерал Кастер 1 255 255 0 false}]
+
+В логах выводится число, а нам надо само расстройство 
+
+Одна из фишек кастомных типов - возможность использовать методы и интерфейсы
+Реализуем встроенный интерфейс String для нашего типа
+
+func (p PersonalityDisorders) String() string {
+    switch p:
+    case AntisocialDisorder:
+        return "Антисоциальное расстройство"
+    case NarcissisticDisorder:
+        return "Нарциссическое расстройство"
+    case HystericalDisorder:
+        return "Истерическое расстройство"
+    case BorderlineDisorder:
+        return "Пограничное расстройство"
+    default:
+        return "Unknown"
+}
+
+Отлично, и еще один нюанс
+Мы не хотим хардкодить цифры в значениях констант
+Здесь можно использовать такую штуку, как iota
+В пределах блока констант она будет генерировать тип и цисловые последовательности на основе первой константы
+
+Итак, вот код, который у нас получился
+
+    type PersonalityDisorders int
+
+    const (
+        AntisocialDisorder   PersonalityDisorders = iota
+        NarcissisticDisorder 
+        HystericalDisorder   
+        BorderlineDisorder   
+    )
+
+    func (p PersonalityDisorders) String() string {
+        switch p {
+        case AntisocialDisorder:
+            return "Антисоциальное расстройство"
+        case NarcissisticDisorder:
+            return "Нарциссическое расстройство"
+        case HystericalDisorder:
+            return "Истерическое расстройство"
+        case BorderlineDisorder:
+            return "Пограничное расстройство"
+        default:
+            return "Unknown"
+
+        }
+    }
+
+    type Woman struct {
+        Name       string
+        Age        uint8
+        Lovers     []Lovers
+        Husband    Husband
+        Сonscience bool
+    }
+
+    type Lovers struct {
+        Name                string
+        PersonalityDisorder PersonalityDisorders
+        Audacity            uint8
+        Sociability         uint8
+        Fear                uint8
+        Сonscience          bool
+    }
+
+    type Husband struct {
+        Name           string
+        Responsibility uint8
+        Patience       uint8
+        Audacity       uint8
+        Sociability    uint8
+        Fear           uint8
+        Сonscience     bool
+        Income         int
+    }
+
+    func main() {
+
+        lovers := []Lovers{{Name: "Генерал Кастер", PersonalityDisorder: AntisocialDisorder, Audacity: 255, Sociability: 255, Fear: 0, Сonscience: false}}
+        fmt.Println(lovers) // [{Генерал Кастер Антисоциальное расстройство 255 255 0 false}]
+
+    }
+
+Осмыслить это можно чуть позже, когда перейдем к интерфейсам, а сейчас просто возьмите на заметку, что так можно
+
+Есть еще одна проблема, которая вызывает беспокойство
+Мы можем заменить, что ряд полей повторяется - везде есть Name,
+у мужчин и мужей есть страх и ответственность
+Что с этим делать? Зачем нам такое дублирование?
+В других языках такие кейсы разрузливаются наследованием 
+Т.е. нужен родительский тип, от которого мы будем брать поля 
+В нашем случае - вот такой
+
+type Person struct {
+	Name       string
+	Fear       uint8
+	Сonscience bool
+}
+
+Однако, в go наследования нет
+Вместо него используется другой паттерн - композиция (встраивание)
+Фактически, мы будем помещать одну структуру внутрь другой, как уже делали ранее, но с нюансами
+
+type Lovers struct {
+	Person
+	PersonalityDisorder PersonalityDisorders
+	Audacity            uint8
+	Sociability         uint8
+}
+
+Здесь, если имя поля и типа данных совпадает, то можно не дублировать
+Так выглядит композиция структур 
+У женщин и мужей тоже встроим Person 
+Теперь поправим немного слайс
+
+    lovers := []Lovers{{Person: Person{Name: "Генерал Кастер", Fear: 0, Сonscience: false}, PersonalityDisorder: AntisocialDisorder, Audacity: 255, Sociability: 255}}
+    fmt.Println(lovers) // [{{Генерал Кастер 0 false} Антисоциальное расстройство 255 255}]
+
+Ладно, допустим
+Но все равно есть еще к чему придраться
+
+
+Достаточно простой, но важный момент - получение отдельных полей экземпляра структуры. 
+Делается это несложно, вот такой синтаксис
+
+	lovers := []Lovers{{Person: Person{Name: "Генерал Кастер", Fear: 0, Сonscience: false}, PersonalityDisorder: AntisocialDisorder, Audacity: 255, Sociability: 255}}
+	fmt.Println(lovers[0].Audacity) // 255
+	fmt.Println(lovers[0].Person.Name) // Генерал Кастер
+    fmt.Println(lovers[0].Name) // Генерал Кастер
+
+Здесь у нас структура - нулевой элемент слайса, поэтому нужно получить сначала его
+Получить доступ к полям встроенной структуры - можно как через нее, так и напрямую. Удобно
+
+Настало время узнать, как передавать структуры в функции и возвращать их
+При передаче аргументом структуры полностью копируются
+Поэтому, если мы хотим сэкономить память, то лучше передавать указатель
+Также если мы возвращаем из функции структуру, то можно вернуть указатель на нее 
+В принципе, если данных в структуре немного, то можно не заморачиваться с указателями
+
+    func main() {
+
+        lovers := []Lovers{
+            {Person: Person{Name: "Генерал Кастер", Fear: 0, Сonscience: false}, PersonalityDisorder: AntisocialDisorder, Audacity: 255, Sociability: 255},
+            {Person: Person{Name: "Эрнан Кортес", Fear: 15, Сonscience: false}, PersonalityDisorder: AntisocialDisorder, Audacity: 220, Sociability: 255},
+        }
+
+        fmt.Println(maxPoint(&lovers[0]))
+        fmt.Println(findMaxAudacity(lovers))
+
+
+    }
+
+    func maxPoint(lover *Lovers) int {
+
+	    return int(lover.Audacity) + int(lover.Sociability) - int(lover.Fear)
+    }
+
+    func findMaxAudacity(lovers []Lovers) *Lovers {
+        ind := 0
+
+        for i := 1; i < len(lovers); i++ {
+            if lovers[i].Audacity > lovers[ind].Audacity {
+                ind = i
+            }
+        }
+
+        return &lovers[ind]
+    }
+
+Функция maxPoint аргументом принимает указатель на структуру Loveres 
+Задача функции - подсчитать количество очков - складываем "положительные" качества и вычитаем отрицательные
+Поскольку типы данных атрибутов uint8, нужно преобразовать в int чтобы все получилось 
+
+Функция findMaxAudacity находит самого дерзкого любовника
+Здесь передавать аргументом указател смысла нет - поскольку передается слайс, 
+а слайс всегда передается по ссылке (поскольку слайс и есть указатель плюс длина и емкость, сам она данных не содержит)
+Но, из функции мы уже возвращаем конкретную структуру, а точнее, указатель на нее
+Кстати, когда мы обращаемся к полям переданной по указателю структуры, то оператор разыменования ставить не нужно -
+в go это сделано уже под капотом для нашего удобства
+
+
+
+Мелкие лафхаки
+
+Инициализация с дефолтными значениями
+
+	lovers := Lovers{}
+	fmt.Println(lovers) // {{ 0 false} Антисоциальное расстройство 0 0}
+
+Откуда взялось расстройство личности? Да все просто - в нашем кастомном enum 
+за основу взят тип int, его дефолтное значение это 0, а нулю соответствует именно это расстройство
+
+
+Структуру можно создать не отходя от кассы - сразу при создании ее экземпляра
+lovers := struct {
+		Person
+		PersonalityDisorder PersonalityDisorders
+		Audacity            uint8
+		Sociability         uint8
+	}{
+		Person: Person{Name: "Генерал Кастер", Fear: 0, Сonscience: false}, 
+		PersonalityDisorder: AntisocialDisorder, 
+		Audacity: 255, 
+		Sociability: 255,
+	}
+
+
+Но, это будет анонимная структура, и мы не сможем ее встраивать - жирный минус и плохая читаемость кода
+
+
+
 ************************************************************************
 Мапы 
