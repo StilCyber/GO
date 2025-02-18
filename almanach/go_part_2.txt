@@ -827,7 +827,175 @@ Go сам взял указатель на эту структуру
    Но, если мы создадим кастомный тип - тут уже пожалуйста  
 5. Сначала яйцо, потом курица - сначала создаем структуру, и затем метод к ней 
    Нельзя создать метод для необъявленной структуры
-Кстати, если метод написан с другой буквы, мы сможет вызывать его из других пакетов
+Кстати, если метод написан с другой буквы, мы сможем вызывать его из других пакетов
+
+************************************************************************
+Интерфейсы
+
+Вот, наконец, мы дошли до них 
+Встречайте. Интерфейсы - в студию
+
+У мариночки есть список требований к мужу и отдельные пожелания к любовникам 
+Муж пренепременно должен уметь делать следующее:
+- отдавать доход (есть что взять)
+- терпеть все ее выходки (ведется на манипуляции)
+
+Ей без разницы какой конкретно человек будет ее мужем - главное, чтобы соблюдалось два условия 
+Это необходимое и достаточное условия
+
+type MyHusband interface {
+    giveAwayIncome(request int) int
+    tolerate(angryPoint int) bool
+}
+
+Вот и все - в интерфейсе прописывается только сигнатура функции (имя, параметры и возвращаемое значение)
+Сами функции заранее, естественно, не создаются
+Другими словами, интерфейс - это женские хотелки 
+
+Создадим два метода для структуры Husband
+
+    func (h *Husband) giveAwayIncome(request int) int {
+        saveMoney := 500
+
+        if h.Income <= saveMoney {
+            fmt.Println("Заначку не забираем, пускай думает что я не знаю о ее существовании")
+            return 0
+        }
+
+        var response int
+
+        if (h.Income - request) >= saveMoney {
+            response = h.Income - request
+            h.Income -= request
+            return response 
+        } else {
+            response = h.Income - saveMoney
+            return response
+        }
+    }
+
+    func (h *Husband) tolerate(angryPoint uint8) bool {
+        h.Patience -= angryPoint
+        
+        if h.Patience <= 0 {
+            fmt.Println("Материал отработан")
+            return false
+        }
+
+        return true
+    }
+
+Структура соответствует интерфейсу, если реализует все его методы 
+Вот любовники, к примеру, данные методы не реализуют, и под роль мужа не подходит 
+
+Еще один небольшой штрих 
+
+    type Woman struct {
+        Person
+        Age     uint8
+        Lovers  []Lovers
+        Husband MyHusband
+    }
+
+При описании типа атрибута Husband указываем уже не структуру, а интерфейс 
+Тот же прием можно использовать, когда типизируем параметры функции 
+
+Есть такая штука - полиморфизм называется 
+Это когда в биологии один и тот же вид реализует разное поведение
+Ну то есть, к примеру когда один человек пьет - и у него здоровье повышается
+Другой человек пьет - и у него понижается
+А бывает и так, что пьет один, а xp теряет кто-то другой 
+Хотя все они просто пьют...
+
+Напишем интерфейс с указанием одного метода, который будет реализован разными способами
+
+type Human interface {
+    drinked(promille float64) uint8
+}
+
+Все хьюман пьют (наверно, каждый просто что-то свое)
+При питие у них увеличивает число промилле в крови 
+Однако, результат у одного и того же действия разный 
+
+Вот так вот пьет муж 
+
+func (l *Husband) drinked(promille float64) uint8 {
+	if promille <= 0 {
+		return l.Health
+	}
+
+	var (
+		smallPromille  = 1.5
+		middlePromille = 2.0
+	)
+
+	if promille > middlePromille {
+		l.Health -= 25
+		fmt.Printf("Очки здоровья: %v\n", l.Health)
+		return l.Health
+	}
+
+	if float64(l.Health)-promille <= 0 {
+		return 0
+	}
+
+	if promille < smallPromille {
+		l.Health -= 5
+		fmt.Printf("Очки здоровья: %v\n", l.Health)
+		return l.Health
+	}
+
+	if promille < middlePromille {
+		l.Health -= 10
+		fmt.Printf("Очки здоровья: %v\n", l.Health)
+		return l.Health
+	}
+
+	return l.Health
+}
+
+А вот так пьют любовники
+
+    func (l *Lover) drinked(promille float64, w *Woman) uint8 {
+         if promille <= 0 {
+
+         return w.Health
+        }
+    
+    var (
+		smallPromille  = 1.5
+		middlePromille = 2.0
+	)
+
+	if promille > middlePromille {
+		l.Health -= 25
+		fmt.Printf("Очки здоровья: %v\n", l.Health)
+		return l.Health
+	}
+
+	if float64(l.Health)-promille <= 0 {
+		return 0
+	}
+
+	if promille < smallPromille {
+		l.Health -= 5
+		fmt.Printf("Очки здоровья: %v\n", l.Health)
+		return l.Health
+	}
+
+	if promille < middlePromille {
+		l.Health -= 10
+		fmt.Printf("Очки здоровья: %v\n", l.Health)
+		return l.Health
+	}
+
+	return l.Health
+
+
+
+    }
+
+
 
 ************************************************************************
 Мапы 
