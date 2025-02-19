@@ -332,6 +332,47 @@ https://pkg.go.dev/slices
 Правда, большая часть из них в принципе бесполезна
 
 // МАПЫ
+Мапа - тип для хранения данных в формате ключ - значение, т.е. хеш-таблица
+
+// объявление пустой мапы 
+var flock map[string]string
+fmt.Printf("Тип мапы: %T\nЗначение мапы: %#v\n", flock, flock) 
+    // Тип мапы: map[string]string
+    // Значение мапы: map[string]string(nil)
+fmt.Println(flock == nil) // true
+fmt.Println(len(flock))  // 0
+ 
+// создание мапы функцией make
+flock := make(map[string]string, 5)
+fmt.Printf("Тип мапы: %T\nЗначение мапы: %#v\n", flock, flock) 
+    // Тип мапы: map[string]string
+    // Значение мапы: map[string]string{}
+fmt.Println(flock == nil) // false
+fmt.Println(len(flock))  // 0
+
+Функция make позволяет аллоцировать память под мапу
+Здесь выделено памяти под 5 пар ключ-значение
+Это не capacity как в слайсах 
+Пустая мапа с аллоцированной памятью не равна nil
+
+// создание мапы через литерал 
+flock := map[string]string{
+	"Шпиц": "Собакен",
+	"Чихуа-хуа":  "Собакен",
+}
+fmt.Printf("Тип мапы: %T\nЗначение мапы: %#v\n", flock, flock) 
+fmt.Println(len(flock)) 
+	// Тип мапы: map[string]string
+	// Значение мапы: map[string]string{"Чихуа-хуа":"Собакен", "Шпиц":"Собакен"}
+	// 2
+
+// создание мапы через new
+flock := *new(map[string]string)
+fmt.Printf("Тип мапы: %T\nЗначение мапы: %#v\n", flock, flock) 
+    // Тип мапы: map[string]string
+    // Значение мапы: map[string]string(nil)
+fmt.Println(flock == nil) // true
+fmt.Println(len(flock))  // 0
 
 // создание мапы, с использованием структуры для значений
 type characteristicsDogs struct {
@@ -339,9 +380,52 @@ type characteristicsDogs struct {
 	agression uint8
 }
 
-var stock = map[string]characteristicsDogs{
+var flock = map[string]characteristicsDogs{
 	"Шпиц":      {90, 152},
 	"Чихуа-хуа": {255, 255},
 	"Мопс":      {115, 82},
 	"Пудель":    {199, 41},
 }
+
+// добавление данных в мапу
+flock["Шиба-ину"] = characteristicsDogs{128, 42}
+
+// изменение данных в мапе 
+flock["Шпиц"] = characteristicsDogs{128, 142}
+
+// полученые данных
+flock["Мопс"]
+
+Если введенного ключа не существует, то мы получим zero value для данного типа
+Бывает так, что ключ и значение существуют, то значение соответствует дефолтному 
+
+Добавим еще одного пса 
+flock["Чау-чау"] = characteristicsDogs{0, 0}
+fmt.Println(flock["Чау-чау"]) // {0, 0}
+
+Попробуем получить данные о несуществующем собакене 
+
+fmt.Println(flock["Гончий хрюндель"]) // {0, 0}
+
+Выход здесь такой
+value, isExist = flock["Гончий хрюндель"] // {0, 0}, false
+
+
+// удаление данных 
+Выпнем пуделя
+delete(flock, "Пудель")
+
+// итерация по мапе (мапа взята после предыдущих изменений)
+for key, value := range flock {
+	fmt.Printf("Key: %v Value: %v\n", key, value)
+}
+
+// Key: Чихуа-хуа Value: {255 255}
+// Key: Мопс Value: {115 82}
+// Key: Шиба-ину Value: {128 42}
+// Key: Чау-чау Value: {0 0}
+// Key: Шпиц Value: {128 142}
+
+Порядок ключей в мапе рандомный, каждый раз будет по-разному, это вам не слайс
+
+// Фильтрация уникальных значений
