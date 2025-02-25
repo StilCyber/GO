@@ -408,7 +408,7 @@ fmt.Println(flock["Чау-чау"]) // {0, 0}
 fmt.Println(flock["Гончий хрюндель"]) // {0, 0}
 
 Выход здесь такой
-value, isExist = flock["Гончий хрюндель"] // {0, 0}, false
+value, isExist := flock["Гончий хрюндель"] // {0, 0}, false
 
 
 // удаление данных 

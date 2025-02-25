@@ -1,0 +1,167 @@
+/* Задача 1
+Квиз - что будет в консоли?
+*/
+
+func main() {
+	v := []int{3, 4, 1, 2, 5}
+	ap(v)
+	sr(v)
+	fmt.Println(v)
+}
+
+func ap(arr []int) {
+	arr = append(arr, 10)
+}
+
+func sr(arr []int) {
+	sort.Ints(arr)
+}
+
+/* Задача 2
+Квиз - что будет в консоли?
+*/
+
+var foo []int
+var bar []int
+
+foo = append(foo, 1)
+foo = append(foo, 2)
+foo = append(foo, 3)
+bar = append(foo, 4)
+foo = append(foo, 5)
+
+fmt.Println(foo, bar)
+
+/* Задача 3
+Квиз - что будет в консоли?
+*/
+
+func main() {
+  c := []string{"A", "B", "D", "E"}
+  b := c[1:2]
+  b = append(b, "TT")
+  fmt.Println(c)
+  fmt.Println(b)
+}
+
+/* Задача 4
+Квиз - что будет в консоли?
+*/
+
+func main() {
+	mutate := func(a []int) {
+		a[0] = 0 
+		a = append(a, 1) 
+		fmt.Println(a) 
+	  }
+	  a := []int{1, 2, 3, 4}
+	  mutate(a)
+	  fmt.Println(a) 
+}
+
+/* Задача 5
+Квиз - что будет в консоли?
+*/
+
+// Первый вариант
+
+func main() {
+	sl := []int{1, 2, 3, 5}
+	mod(sl)
+
+	fmt.Println(sl)
+}
+
+func mod(a []int) {
+	for i := range a {
+	  a[i] = 5
+	}
+
+	fmt.Println(a)
+}
+
+// Второй вариант
+
+func main() {
+	sl := make([]int, 4, 8)
+	sl[0] = 1
+	sl[1] = 2
+	sl[2] = 3
+	sl[3] = 5
+	mod(sl)
+	fmt.Println(sl)
+}
+
+func mod(a []int) {
+	for i := range a {
+		a[i] = 5
+	  }
+	  fmt.Println(a) 
+}
+
+// Третий вариант
+
+func main() {
+	sl := make([]int, 4, 8)
+	sl[0] = 1
+	sl[1] = 2
+	sl[2] = 3
+	sl[3] = 5
+	mod(sl)
+	fmt.Println(sl)
+}
+
+func mod(a []int) {
+	a = append(a, 125)
+	for i := range a {
+		a[i] = 5
+	}
+	fmt.Println(a)
+}
+
+// Четвертый вариант
+
+func main() {
+	sl := []int{1, 2, 3, 4, 5}
+	mod(sl)
+	fmt.Println(sl) 
+}
+
+func mod(a []int) {
+	a = append(a, 125) 
+	for i := range a {
+		a[i] = 5
+	}
+	fmt.Println(a) 
+}
+
+// Какие есть рекомендации? 
+
+/* Задача 6
+Квиз - что будет в консоли?
+*/
+
+// Вариант 1
+
+func main() {
+	a := []int{1, 2}
+	a = append(a, 3) 
+	b := append(a, 4) 
+	c := append(a, 5) 
+
+	fmt.Println(b) 
+	fmt.Println(c) 
+}
+
+// Вариант 2
+
+func main() {
+    a := []int{1,2}
+    a = append(a, 3)
+    a = append(a, 7)
+    b := append(a, 4)
+    c := append(a, 5)
+
+    fmt.Println(b)
+    fmt.Println(c)
+}
