@@ -27,7 +27,7 @@ Two sum
 */
 
 Описание:
-https://leetcode.com/problems/two-sum/description/
+leetcode.com/problems/two-sum/description/
 
 На вход подается слайс типа int и число target (тоже int)
 Слайс неотсортирован
@@ -136,7 +136,7 @@ Majority Element
 */
 
 Описание:
-https://leetcode.com/problems/majority-element/description/
+leetcode.com/problems/majority-element/description/
 
 Несложная задача 
 Решить можно с использованием сортировки, но лучше через мапу - на собесах здесь на сортировку будут агриться
@@ -148,7 +148,7 @@ Contains Duplicate
 Простая и часто встречающаяся задачка
 
 Описание:
-https://leetcode.com/problems/contains-duplicate/description/
+leetcode.com/problems/contains-duplicate/description/
 
 /* Задача 4
 Valid Sudoku
@@ -157,7 +157,7 @@ Valid Sudoku
 Задача medium уровня 
 
 Описание:
-https://leetcode.com/problems/valid-sudoku/description/
+leetcode.com/problems/valid-sudoku/description/
 
 У нас есть судоку 
 Нужно проверить, правильно ли он заполнен 
@@ -232,5 +232,139 @@ j/3 + i/3 * 3
 Кстати, если в мапе значением ключа выступает булево значение - это по сути вещей структура Set
        т.е. коллекция уникальных значений 
 
+Сложность:
+time - O(n*2)
+mem - O(n)
 
+/* Задача 5
+Isomorphic Strings
+*/
+
+Изоморфизм - однозначное соответствие между элементами двух групп 
+В данном случае - между символами двух строк 
+
+Описание:
+leetcode.com/problems/isomorphic-strings/description
+
+Рассмотрим подробнее
+
+s = "egg", t = "add"
+
+Берем два элемента из разных строк по одному идексу 
+Первая такая связка устанавливает строгое соответствие
+Сначала образуется пара e - a
+Затем пара g - d 
+Других соотношений быть не может 
+К примеру, если бы у нас возникло соотношение e -j, то изоморфизм здесь был бы нарушен 
+s = "egge", t = "addj"
+
+Как быть, если символы тождественны?
+s = "abc", t = "aba"
+
+Здесь изоморфизма нет, т.к. a - a изначально составляет пару, которая потом нарушается 
+
+func isIsomorphic(s string, t string) bool {
+    sMapa, tMapa := make(map[byte]byte), make(map[byte]byte)
+
+    for i := range s {
+        if value, ok := sMapa[s[i]]; ok && value != t[i] {
+            return false
+        }
+
+        if value, ok := tMapa[t[i]]; ok && value != s[i] {
+            return false
+        }
+
+        sMapa[s[i]] = t[i]
+        tMapa[t[i]] = s[i]
+    }
+
+    return true
+}
+
+Ход решения:
+1. Создаем две мапы - одна для s - t, другая для t - s 
+2. Идет циклом по любой из строк 
+3. Вешаем проверки - если в каждой из мап есть текущий элемент и он не равен элементу из второй строки - возвращаем false
+4. Добавляем данные в мапы 
+
+Сложность:
+time - O(n)
+mem - O(n)
+
+/* Задача 6
+Maximum Number of Balloons
+*/
+
+Странновато выглядит, но давайте попробуем
+
+Описание:
+leetcode.com/problems/maximum-number-of-balloons/description
+
+Hint: при решении можно использовать вот такую мапу 
+
+mapa := map[string]float64{
+        "b": 0, 
+        "a": 0,
+        "l": 0,
+        "o": 0,
+        "n": 0,
+    }
+
+
+
+/* Задача 7
+Unique Number of Occurrences
+*/
+
+Действительно хорошая задачка
+Вначале подсчитываем число вхождений каждой цифры в слайсе
+И затем решение сводится к поиску дубликатов
+
+Описание:
+leetcode.com/problems/unique-number-of-occurrences/description
+
+Hint: проверку дубликатов в мапе можно делать двумя способами
+1. Через заведение нового слайса 
+2. Через вторую мапу, которая будет играть роль set (коллекции уникальных значений)
+Крайне рекомендуется решить через set - map[int]bool
+
+/* Задача 7
+Find Words That Can Be Formed by Characters
+*/
+
+Норм задача, много мелких нюансов, просто нужно понять в какое место воткнуть мапу
+
+Описание:
+leetcode.com/problems/find-words-that-can-be-formed-by-characters/description
+
+
+/* Задача 8
+Find Lucky Integer in an Array
+*/
+
+Прикольная несложная задачка, самое то чтобы расслабиться
+
+Описание:
+leetcode.com/problems/find-lucky-integer-in-an-array/description
+
+/* Задача 9
+Destination City
+*/
+
+Реально классная задача, решайте с удовольствием (^_^)
+
+Описание:
+leetcode.com/problems/destination-city/description
+
+
+/* Задача 10
+Find Winner on a Tic Tac Toe Game
+*/
+
+Финальная задача 
+Помните крестики-нолики? Ха-ха
+
+Описание:
+leetcode.com/problems/find-winner-on-a-tic-tac-toe-game/description
 
