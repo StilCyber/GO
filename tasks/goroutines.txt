@@ -1,0 +1,63 @@
+/* Задача 1
+Квиз - что будет в консоли?
+*/
+
+func main() {
+	a := 5000
+	for i := 0; i < a; i++ {
+		go fmt.Println(i)
+	}
+}
+
+/* Задача 2
+Квиз - что будет в консоли?
+*/
+
+func main() {
+  ch := make(chan int)
+  ch <- 1
+  go func() {
+    fmt.Println(<-ch)
+  }()
+}
+
+/* Задача 3
+Квиз - что будет в консоли?
+*/
+
+func main() {
+  ch := make(chan bool)
+  ch <- true
+  go func() {
+    <-ch
+  }()
+  ch <-true
+}
+
+/* Задача 4
+Квиз - что будет в консоли?
+*/
+
+func main() {
+        ch := make(chan bool)
+        ch2 := make(chan bool)
+        ch3 := make(chan bool)
+        go func() {
+                ch <- true
+        }()
+        go func() {
+                ch2 <- true
+        }()
+        go func() {
+                ch3 <- true
+        }()
+
+        select {
+        case <-ch:
+                fmt.Printf("val from ch")
+        case <-ch2:
+                fmt.Printf("val from ch2")
+        case <-ch3:
+                fmt.Printf("val from ch3")
+        }
+}
