@@ -1,0 +1,6 @@
+Все достаточно просто 
+defer fmt.Println("code") само собой отработает 
+
+Второй defer fmt.Println("unreacheable code") - до него поток никогда не дойдет, т.к. условие всегда false 
+
+Третий defer fmt.Println("unreacheable code") расположен после return, до него поток тоже не дойдет, т.к. функция завершится раньше

@@ -1,3 +1,5 @@
+package main
+
 func runningSum(nums []int) []int {
     var result []int
     sum := 0

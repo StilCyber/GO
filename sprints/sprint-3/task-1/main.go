@@ -1,4 +1,4 @@
-package sprintThreeTaskThreeSolution
+package main
 
 import "strings"
 

@@ -1,4 +1,4 @@
-package sprintThreeTaskTwoSolution
+package main
 
 func scoreOfString(s string) int {
     result := 0

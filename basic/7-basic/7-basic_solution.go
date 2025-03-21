@@ -1,6 +1,6 @@
 package basicSeven
 
-import ("fmt")
+import "fmt"
 
 func CalcFactorial(num int) (int) {
 	

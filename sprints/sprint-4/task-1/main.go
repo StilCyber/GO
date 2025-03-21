@@ -1,3 +1,6 @@
+package main
+import "strings"
+
 func findWords(words []string) []string {
     var result []string
 
