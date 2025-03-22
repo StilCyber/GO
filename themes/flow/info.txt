@@ -3,5 +3,15 @@
 - panic
 - recover 
 
+Полный перечень всех механизмов следующий:
+- if 
+- for
+- switch
+- defer
+- panic
+- recover
+- go
+- goto
+
 Вводную информацию можно подчерпнуть в блоге разрабов 
 https://go.dev/blog/defer-panic-and-recover

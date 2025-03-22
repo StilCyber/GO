@@ -1,0 +1,50 @@
+Собственно дело тут в том, что с именованным return оператор defer работает особенным образом
+
+Вот здесь все вполне ожидаемо - выведется 10, т.к. defer уже при исполнении посмотрит на тело функции и хотя и изменит result,
+   но это не отразится на return 
+Значение result на выходе из функции будет 10
+
+////////////////////
+
+func Modify(value int) int {
+	var result int
+	defer func() {
+		result += value
+	}()
+
+	return value + value
+}
+
+////////////////////
+
+Можете убедиться в этом вот таким образом:
+
+////////////////////
+
+func Modify(value int) int {
+	var result int
+	defer func() {
+		result += value
+        fmt.Println(result)
+	}()
+
+	return value + value
+}
+
+////////////////////
+
+С именованными значениям все немного иначе 
+
+////////////////////
+
+func Modify(value int) (result int) {
+	defer func() {
+		result += value
+	}()
+
+	return value + value
+}
+
+////////////////////
+
+Тут уже будет 15, т.к. defer позволено делать такие сайд-эффекты 

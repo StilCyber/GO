@@ -1,30 +1,22 @@
 package main
 
-import "fmt"
+type Data struct{}
 
-type data1 struct {
-	value int
+func MakeData(pointer *int) Data {
+	println("MakeData:", *pointer)
+	return Data{}
 }
 
-func (d data1) print() {
-	fmt.Println("data1", d.value)
-}
-
-type data2 struct {
-	value int
-}
-
-func (d *data2) print() {
-	fmt.Println("data2", d.value)
+func (Data) Print(pointer *int) {
+	println("Print:", *pointer)
 }
 
 func main() {
-	d1 := data1{}
-	defer d1.print()
+	var value = 1
+	var pointer = &value
+	defer MakeData(pointer).Print(pointer)
 
-	d2 := data2{}
-	defer d2.print()
-
-	d1.value = 100
-	d2.value = 200
+	value = 2
+	pointer = new(int)
+	MakeData(pointer)
 }
