@@ -1,0 +1,89 @@
+Скорее всего будет выводиться пустая строка, однако удалось отловить с hello world 
+У нас две горутины, которые обращаются к одному и тому же участку памяти - одна читает, вторая пишет 
+Горутина, которая пишет, может отработать как до, так и после исполнения горутины, которая читает переменную text 
+Так что вывод здесь непредсказуем
+
+Чтобы посмотреть, есть ли в коде data race, можно запустить программу с флагом -race:
+go run -race main.go
+
+Чтобы решить эту проблему, нужен мьютекс
+
+///////////////
+
+package main
+
+import (
+	"fmt"
+	"sync"
+)
+
+func main() {
+	text := ""
+
+	var mutex sync.Mutex
+
+	wg := sync.WaitGroup{}
+	wg.Add(2)
+
+	go func() {
+		defer wg.Done()
+		mutex.Lock()
+		text = "hello world"
+		mutex.Unlock()
+	}()
+
+	go func() {
+		defer wg.Done()
+		mutex.Lock()
+		fmt.Println(text)
+		mutex.Unlock()
+	}()
+
+	wg.Wait()
+}
+
+///////////////
+
+Теперь нет data race, но есть race condition - планировщик недетерменирован. и какая из горутин отработает раньше мы не знаем
+Мьютекс в этом случае гарантирует только то, что горутины не будут одновременном получать доступ к однму и тому же участку памяти
+То есть у нас все равно будет либо пустая строка, либо привет миру
+Как это пофиксить? Либо отказаться от горутин, либо разбить одну группу ожидания на две:
+
+///////////////
+
+package main
+
+import (
+	"fmt"
+	"sync"
+)
+
+func main() {
+	text := ""
+
+	var mutex sync.Mutex
+
+	wg := sync.WaitGroup{}
+	wg.Add(1)
+
+	go func() {
+		defer wg.Done()
+		mutex.Lock()
+		text = "hello world"
+		mutex.Unlock()
+	}()
+
+	wg.Wait()
+	wg.Add(1)
+
+	go func() {
+		defer wg.Done()
+		mutex.Lock()
+		fmt.Println(text)
+		mutex.Unlock()
+	}()
+
+	wg.Wait()
+}
+
+///////////////

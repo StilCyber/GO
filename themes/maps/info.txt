@@ -1,0 +1,30 @@
+Мапы (они же словари) - тип данных, в основе которого лежит хэш-таблица 
+
+Мапы описываются следующей структурой:
+https://github.com/golang/go/blob/3902e9ef4e4543c6ac7371174a122ca090af971a/src/runtime/map_noswiss.go
+
+type hmap struct {
+	count     int // число элементов
+	flags     uint8
+	B         uint8  // число бакетов (логарифм)
+	noverflow uint16 // approximate number of overflow buckets; see incrnoverflow for details
+	hash0     uint32 // hash seed
+
+	buckets    unsafe.Pointer // указатель на бакеты 
+	oldbuckets unsafe.Pointer // указатель на старые бакеты
+	nevacuate  uintptr        // progress counter for evacuation (buckets less than this have been evacuated)
+	clearSeq   uint64
+
+	extra *mapextra // optional fields
+}
+
+Когда создаем слайс, то создаем объект структуры
+Когда создаем мапу - все чуть сложнее, мы создаем указатель на объект структуры мапы
+
+Бакет - это массив, состоящий в 8 элементов 
+Бакеты тоже, в свою очередь, объединены в массив 
+
+
+type bmap struct {
+	tophash [abi.OldMapBucketCount]uint8
+}
