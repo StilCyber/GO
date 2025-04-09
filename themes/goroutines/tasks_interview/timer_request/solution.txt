@@ -1,0 +1,31 @@
+Классика жанра 
+timer() устанавливает счетчик работы main 
+Вспомните про особенности работы defer - timer() выполнится сразу же, т.к. нужно подобраться к возвращаемой функции
+
+Чтобы оптимизировать код, нужно прокинуть мьютекс и создать wait группу 
+Мьютекс обеспечит блокировку общего ресурса, а группа ожидания нужна чтобы 
+   main завершила работу только после того, как выполнятся все горутины 
+
+////////////////
+func networkRequest(mtx *sync.Mutex, wg *sync.WaitGroup) {
+	defer wg.Done()
+	time.Sleep(time.Millisecond)
+
+	mtx.Lock()
+	count++
+	mtx.Unlock()
+}
+
+func main() {
+	defer timer()()
+	mtx := sync.Mutex{}
+	wg := sync.WaitGroup{}
+
+	wg.Add(numRequests)
+
+	for i := 0; i < numRequests; i++ {
+		go networkRequest(&mtx, &wg)
+	}
+
+	wg.Wait()
+}

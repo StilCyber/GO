@@ -1,0 +1,23 @@
+Типичный непредсказуемый результат
+А все потому, что мы можем читать как из открытого, так и из закрытого каналов
+Чтобы работало корректно, нужно "занилить" каналы после чтения
+
+func WaitToClose(lhs, rhs chan struct{}) {
+	lhsClosed, rhsClosed := false, false
+	for !lhsClosed || !rhsClosed {
+		select {
+		case _, ok := <-lhs:
+			fmt.Println("lhs", ok)
+			if !ok {
+				lhsClosed = true
+				lhs = nil
+			}
+		case _, ok := <-rhs:
+			fmt.Println("rhs", ok)
+			if !ok {
+				rhsClosed = true
+				rhs = nil
+			}
+		}
+	}
+}
