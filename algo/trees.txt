@@ -1,0 +1,151 @@
+************************************************************************
+Деревья 
+
+/* Задача 1
+Binary Tree Preorder Traversal
+*/
+
+Описание:
+leetcode.com/problems/binary-tree-preorder-traversal/description/
+
+Сложность:
+time - O(n) - нужно обойти все узлы 
+mem - O(h) - h это глубина дерева: то, насколько оно уходит вниз - расстояние от корня до самого дальнего листа
+При обходе используется стэк, поэтому сложность по памяти O(h)
+Почему не константа? Потому, что при константе, это O(1), сложность не зависит от размера входных данных
+Однако, если каждое поддерево будет представлено только одним узлом - то тогда сложность O(n) по памяти
+
+
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+
+func preorderTraversal(root *TreeNode) []int {
+    result := make([]int, 0)
+
+    traversal(root, &result)
+
+    return result
+}
+
+func traversal(node *TreeNode, result *[]int) {
+    if node == nil {
+        return
+    }
+
+    *result = append(*result, node.Val)
+    traversal(node.Left, result)
+    traversal(node.Right, result)
+}
+
+Итак, что здесь происходит
+Инициируем пустой срез, и прокидываем корень дерева вместе с ним в отдельную функцию
+traversal - рекурсивная функция
+Если у нас нет ноды, то происходит выход из функции 
+Затем, начинается обход дерева по левой стороне 
+
+
+Вообще, что такое преордер Preorder
+Это следующая схема:
+1. Делаем действие (в данном случае аппендим)
+2. Идем влево
+3. Идет вправо 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Задача 2
+Binary Tree Inorder Traversal
+*/
+
+Описание:
+leetcode.com/problems/binary-tree-inorder-traversal/description/
+
+В задаче используется порядок обхода Inorder:
+1. Идет влево
+2. Выполняем действие
+3. Идет вправо 
+
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func inorderTraversal(root *TreeNode) []int {
+    result := []int{}
+    traversal(root, &result)
+
+    return result
+    
+}
+
+func traversal(node *TreeNode, result *[]int) {
+    if node == nil {
+        return
+    }
+
+    traversal(node.Left, result)
+    *result = append(*result, node.Val)
+    traversal(node.Right, result)
+}
+
+Найдите одно отличие от предыдущей задачи (^_^)
+
+
+
+/* Задача 3
+Binary Tree Postorder Traversal
+*/
+
+Описание:
+leetcode.com/problems/binary-tree-postorder-traversal/description/
+
+В задаче используется порядок обхода Postorder:
+1. Идет влево
+2. Идем вправо
+2. Выполняем действие
+
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func postorderTraversal(root *TreeNode) []int {
+    result := []int{}
+    traversal(root, &result)
+
+    return result
+}
+
+func traversal(node *TreeNode, result *[]int) {
+    if node == nil {
+        return
+    }
+
+    traversal(node.Left, result)
+    traversal(node.Right, result)
+    *result = append(*result, node.Val)
+}
