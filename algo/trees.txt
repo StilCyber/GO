@@ -56,21 +56,6 @@ traversal - рекурсивная функция
 2. Идем влево
 3. Идет вправо 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Задача 2
 Binary Tree Inorder Traversal
 */
@@ -149,3 +134,14 @@ func traversal(node *TreeNode, result *[]int) {
     traversal(node.Right, result)
     *result = append(*result, node.Val)
 }
+
+/* Задача 4
+Binary Tree Level Order Traversal
+*/
+
+Описание:
+leetcode.com/problems/binary-tree-level-order-traversal/description/
+
+Сложность:
+time - O(n) 
+mem - O(n)
